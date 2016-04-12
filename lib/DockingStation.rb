@@ -2,23 +2,28 @@ require_relative 'bike'
 
 class DockingStation
 
+  def initialize
+    @bikes = []
+  end
+
 	def release_bike
-		if @bike.nil?
+		if @bikes.empty?
 			raise "No bikes available..."
 		else
-      @bike 
+      @bikes.pop
 		end
 	end
 
   def dock(bike)
-    if @bike 
+    if @bikes.length == 20
       raise "Docking station at capacity..."
     else
-      @bike = bike 
+      @bikes << bike
+      bike
     end
   end
 
   def docked
-    @bike
+    @bikes
   end
 end

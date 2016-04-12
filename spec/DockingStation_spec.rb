@@ -35,18 +35,24 @@ describe DockingStation do
     it 'should allow bike to be docked' do
       docking_station = DockingStation.new
       docking_station.dock('test_bike')
-      expect(docking_station.docked).to eq 'test_bike'
+      expect(docking_station.docked[0]).to eq 'test_bike'
       docking_station = DockingStation.new
       docking_station.dock('my_bike')
-      expect(docking_station.docked).to eq 'my_bike' 
+      expect(docking_station.docked[0]).to eq 'my_bike' 
     end
 
     it 'should return the docked bike when user docks' do 
       expect(subject.dock('test_bike')).to eq 'test_bike'
     end
 
+    it 'should allow up to 20 bikes to be docked' do
+      20.times { subject.dock(Bike.new) }
+      expect(subject.docked.count).to eq 20
+    end
+
     it 'should raise an error when docking a bike at a docking station at capacity' do 
-      expect {docking_station.dock(Bike.new)}.to raise_error("Docking station at capacity...")
+      20.times { subject.dock(Bike.new) }
+      expect {subject.dock(Bike.new)}.to raise_error("Docking station at capacity...")
     end
   end    
 
