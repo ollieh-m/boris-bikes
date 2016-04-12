@@ -6,9 +6,7 @@ class DockingStation
 		if @bike.nil?
 			raise "No bikes available..."
 		else
-      bike_given = @bike 
-      @bike = nil
-      bike_given
+      @bike 
 		end
 	end
 
