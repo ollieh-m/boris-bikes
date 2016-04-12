@@ -6,12 +6,18 @@ class DockingStation
 		if @bike.nil?
 			raise "No bikes available..."
 		else
-			@bike
+      bike_given = @bike 
+      @bike = nil
+      bike_given
 		end
 	end
 
   def dock(bike)
-    @bike = bike 
+    if @bike 
+      raise "Docking station at capacity..."
+    else
+      @bike = bike 
+    end
   end
 
   def docked
