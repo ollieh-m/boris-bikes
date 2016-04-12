@@ -7,11 +7,15 @@ describe DockingStation do
     end
 
     it 'should actually release a new bike - create a bike object - when release_bike is run' do
-    	expect(DockingStation.new.release_bike.class).to eq Bike
+    	docking_station = DockingStation.new
+      docking_station.dock(Bike.new)
+      expect(docking_station.release_bike.class).to eq Bike
     end
 
     it 'should expect the bike to be working' do
-    	expect(DockingStation.new.release_bike.working?).to eq true
+      docking_station = DockingStation.new
+      docking_station.dock(Bike.new)
+    	expect(docking_station.release_bike.working?).to eq true
     end
 
     it 'should respond to the dock setter method' do
@@ -32,6 +36,10 @@ describe DockingStation do
 
     it 'should return the docked bike when user docks' do 
       expect(subject.dock('test_bike')).to eq 'test_bike'
+    end
+
+    it 'should raise an error when releasing a bike if no bikes docked' do
+      expect {subject.release_bike}.to raise_error("No bikes available...")
     end
 
 end
