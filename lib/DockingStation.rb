@@ -1,6 +1,7 @@
 require_relative 'bike'
 
 class DockingStation
+  DEFAULT_CAPACITY = 20
 
   def initialize
     @bikes = []
@@ -24,14 +25,14 @@ class DockingStation
     @bikes
   end
 
-    private
+  private
 
-      def full?
-        @bikes.length == 20
-      end
+  def full?
+    @bikes.length == DEFAULT_CAPACITY
+  end
 
-      def empty?
-        @bikes.length == 0
-      end
+  def empty?
+    @bikes.length == 0
+  end
 
 end

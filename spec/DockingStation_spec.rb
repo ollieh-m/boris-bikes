@@ -28,7 +28,7 @@ describe DockingStation do
       is_expected.to respond_to(:dock).with(1).argument
     end
 
-    it 'should respond to the docked reader method' do 
+    it 'should respond to the docked reader method' do
       is_expected.to respond_to(:docked)
     end
 
@@ -38,27 +38,26 @@ describe DockingStation do
       expect(docking_station.docked[0]).to eq 'test_bike'
       docking_station = DockingStation.new
       docking_station.dock('my_bike')
-      expect(docking_station.docked[0]).to eq 'my_bike' 
+      expect(docking_station.docked[0]).to eq 'my_bike'
     end
 
-    it 'should return the docked bike when user docks' do 
+    it 'should return the docked bike when user docks' do
       expect(subject.dock('test_bike')).to eq 'test_bike'
     end
 
     it 'should allow up to 20 bikes to be docked' do
-      20.times { subject.dock(Bike.new) }
+      DockingStation::DEFAULT_CAPACITY.times { subject.dock(Bike.new) }
       expect(subject.docked.count).to eq 20
     end
 
-    it 'should raise an error when docking a bike at a docking station at capacity' do 
-      20.times { subject.dock(Bike.new) }
+    it 'should raise an error when docking a bike at a docking station at capacity' do
+      DockingStation::DEFAULT_CAPACITY.times { subject.dock(Bike.new) }
       expect {subject.dock(Bike.new)}.to raise_error("Docking station at capacity...")
     end
-  end    
+  end
 
   it 'should expect the bike to be working when a bike is released' do
   	expect(docking_station.release_bike.working?).to eq true
   end
 
 end
- 
