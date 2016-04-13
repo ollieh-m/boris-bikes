@@ -2,9 +2,18 @@ require 'DockingStation'
 
 describe DockingStation do
 
+  let(:bike) do
+      bike = double("bike",
+      :working? => true,
+      :broken? => false,
+      :report_broken => bike
+      )
+      bike
+  end
+
   let(:docking_station) do
     docking_station = subject
-    docking_station.dock(double(:bike))
+    docking_station.dock(bike)
     docking_station
   end
 
@@ -36,7 +45,7 @@ describe DockingStation do
     end
 
     it 'should actually release a new bike when a bike is available at docking station' do
-      expect(docking_station.release_bike.class).to eq Bike
+      expect(docking_station.release_bike.class).to eq RSpec::Mocks::Double
     end
 
     it 'should raise an error when releasing a bike if no bikes docked' do
@@ -44,10 +53,10 @@ describe DockingStation do
     end
 
     it 'does not release a broken bike' do
-      broken_bike = double(:bike)
-      subject.dock(broken_bike)
+      allow(bike).to receive(:broken?).and_return true
+      subject.dock(bike)
       expect{subject.release_bike}.to raise_error("Bike is broken!")
-      expect(subject.docked.include?(broken_bike)).to eq true
+      expect(subject.docked.include?(bike)).to eq true
     end
   end
 
@@ -83,18 +92,14 @@ describe DockingStation do
       expect {subject.dock(double(:bike))}.to raise_error("Docking station at capacity...")
     end
 
-    it 'should accept a broken bike' do
-      broken_bike = double(:bike)
-      broken_bike.report_broken
-      subject.dock(broken_bike)
-      expect(subject.docked).to include(broken_bike)
-    end
-
     it 'should be able to report the boke is broken as you dock the bike' do
-      bike = double(:bike)
+      allow(bike).to receive(:report_broken).and_return bike
+      allow(bike).to receive(:broken?).and_return true
+      #bike1 = double("bike", :report_broken => bike, :broken? => true, :working? => true)
       subject.dock(bike.report_broken)
       expect(subject.docked).to include(bike)
       expect(subject.docked.last.broken?).to eq true
+      #shorthand double syntax does not work here
     end
 
   end
