@@ -9,6 +9,7 @@ class Bike
 
   def report_broken
     @broken = true
+    self
   end
 
   def broken?
