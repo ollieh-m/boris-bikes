@@ -8,7 +8,28 @@ describe DockingStation do
     docking_station
   end
 
-  context 'releasing a bike' do
+  context 'when creating a docking station' do
+
+    let(:docking_station_50) do
+      docking_station = DockingStation.new(50)
+      50.times { docking_station.dock(Bike.new) }
+      docking_station
+    end
+
+    it 'should have a capacity of 50 if capacity is set to 50' do
+      expect(docking_station_50.docked.length).to eq 50
+      expect { docking_station_50.dock(Bike.new) }.to raise_error("Docking station at capacity...")
+    end
+
+    it 'should have a capacity of 20 if no other capacity is set' do
+      20.times{ subject.dock(Bike.new) }
+      expect(subject.docked.length).to eq 20
+      expect {subject.dock(Bike.new)}.to raise_error("Docking station at capacity...")
+    end
+
+  end  
+
+  context 'when releasing a bike' do
 
     it 'responds to release_bike' do
       is_expected.to respond_to 'release_bike'
@@ -23,7 +44,7 @@ describe DockingStation do
     end
   end
 
-  context 'docking a bike' do
+  context 'when docking a bike' do
     it 'should respond to the dock setter method' do
       is_expected.to respond_to(:dock).with(1).argument
     end
